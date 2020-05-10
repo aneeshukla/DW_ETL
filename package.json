@@ -1,5 +1,5 @@
 {
-  "name": "etl",
+  "name": "dw_etl",
   "version": "0.0.1",
   "description": "ETL for DW with Cars data",
   "main": "server.js",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/aneeshukla/DW_ETL/issues"
   },
-  "homepage": "https://github.com/aneeshukla/DW_ETL#readme"
+  "homepage": "https://github.com/aneeshukla/DW_ETL#readme",
+  "dependencies": {
+    "etl": "^0.6.12",
+    "mongodb": "^3.5.7"
+  }
 }
