@@ -1,8 +1,4 @@
-const Location = require('./models/location');
-const Maker = require('./models/maker');
-const CarModel = require('./models/carModel');
-const Time = require('./models/time');
-const Fact = require('./models/fact');
+const { Location, Time, Maker, CarModel, Fact } = require('./db');
 
 const getLocations = async () => {
     const locations = await Location.findAll();
@@ -28,10 +24,7 @@ const getFacts = async () => {
     const facts = await Fact.findAll();
     console.log(facts.every(fact => fact instanceof Fact)); // true
     console.log("All Facts:", JSON.stringify(facts, null, 2));
-}
-
-const createLocation = async (location) => {
-    return await Location.create(location);
+    return facts;
 }
 
 module.exports = {
@@ -39,6 +32,5 @@ module.exports = {
     getFacts,
     getLocations,
     getMakers,
-    getTimes,
-    createLocation
+    getTimes
 }

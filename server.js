@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const initializer = require('./initializer')
+const controller = require('./controller');
 
 // dependencies
 // const { Location, Time, Maker, CarModel, Fact } = require('./db')
@@ -13,10 +14,16 @@ app.use(bodyParser.json())
 const port = 3000
 
 app.listen(port, () => {
-    console.log(`Running on http://localhost:${port}`)
+  console.log(`Running on http://localhost:${port}`)
 })
 
-app.get('/init', (req, res)=>{
+app.get('/init', (req, res) => {
   initializer.begin();
   res.send('It has begun! :D')
+});
+
+app.get('/facts/all', (req, res) => {
+  controller.getFacts().then((data) => {
+    res.json(data);
+  });
 });
