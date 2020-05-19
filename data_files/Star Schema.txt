@@ -1,0 +1,45 @@
+Fact Table:
+
+Maker (Maker Id)
+Model (Model Id)
+Manufacture Location(Location Id)
+Time Dimension(Time Id)
+Mileage (fact)
+Engine Power (fact)
+Price (fact)
+
+
+
+
+Maker Dimension:
+
+Maker Id
+Maker Name
+Maker CEO
+
+
+
+Model Dimension:
+
+Model Id
+Model Name
+Fuel Type
+
+
+Location Dimension:
+
+Location Id
+Location Factory name
+Location City
+Location Country
+
+
+
+Time Dimension:
+
+Time Id
+Year
+Month
+
+
+
