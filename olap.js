@@ -94,12 +94,14 @@ const slice = () => {
 const rollUp = (fromDimension, toDimension) => {
     let lowLevelMembers = getDimensionMembers(fromDimension);
     let highLevelMembers = cube.dice({ [fromDimension]: lowLevelMembers }).getDimensionMembers(toDimension);
+    console.table(highLevelMembers);
     return highLevelMembers;
 }
 
 const drillDown = (fromDimension, toDimension) => {
     let highLevelMembers = getDimensionMembers(fromDimension);
     let lowLevelMembers = cube.dice({ [fromDimension]: highLevelMembers }).getDimensionMembers(toDimension);
+    console.table(lowLevelMembers);
     return lowLevelMembers;
 }
 
@@ -133,6 +135,7 @@ const query = (country, city, year, month) => {
             month: data['Time.month']
         }
     });
+    console.table(queryData);
     return queryData;
 }
 
