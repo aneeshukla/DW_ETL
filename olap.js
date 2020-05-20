@@ -1,44 +1,114 @@
 const Cube = require('olap-cube-js');
 const controller = require('./controller');
 
-let dimensionHierarchies = [(
+let dimensionHierarchies = [
     {
         dimensionTable: {
-            dimension: 'locations',
-            keyProps: ['Location.country', 'Location.city', 'Location.factory']
-        }
+            dimension: 'country',
+            keyProps: ['Location.id', 'Location.country']
+        },
+        level: [
+            {
+                dimensionTable: {
+                    dimension: 'city',
+                    keyProps: ['Location.city']
+                },
+                level: [
+                    {
+                        dimensionTable: {
+                            dimension: 'factory',
+                            keyProps: ['Location.factory']
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         dimensionTable: {
-            dimension: 'makers',
-            keyProps: ['Maker.name', 'Maker.ceo']
-        }
+            dimension: 'maker',
+            keyProps: ['Maker.id', 'Maker.name']
+        },
+        level: [
+            {
+                dimensionTable: {
+                    dimension: 'ceo',
+                    keyProps: ['Maker.ceo']
+                }
+            }
+        ]
     },
     {
         dimensionTable: {
-            dimension: 'models',
-            keyProps: ['CarModel.name', 'CarModel.fuel_type']
-        }
+            dimension: 'model',
+            keyProps: ['CarModel.id', 'CarModel.name']
+        },
+        level: [
+            {
+                dimensionTable: {
+                    dimension: 'fueltype',
+                    keyProps: ['CarModel.fuel_type']
+                }
+            }
+        ]
     },
     {
         dimensionTable: {
-            dimension: 'times',
-            keyProps: ['Time.year', 'Time.month']
-        }
+            dimension: 'year',
+            keyProps: ['Time.id', 'Time.year']
+        },
+        level: [
+            {
+                dimensionTable: {
+                    dimension: 'month',
+                    keyProps: ['Time.month']
+                }
+            }
+        ]
     }
-)];
+];
 
 let cube = new Cube({ dimensionHierarchies });
-// This is the data schema we need to obtain
 
 const initCube = async () => {
     let facts = await controller.getFacts();
-    // console.log(JSON.parse(factData))
-    // console.log(JSON.stringify(cube.dimensionHierarchies[0]))
-    await cube.addFacts(JSON.parse(JSON.stringify(facts)));
+    cube.addFacts(facts);
+    return 'Cube initialized! :D';
+}
+
+const dice = async () => {
     return cube.dice({}).getCells();
 }
 
+const getDimensionMembers = () => {
+    cube.getDimensionMembers('locations')
+}
+
+const slice = () => {
+    let member = cube.getDimensionMembers('country')[0];
+    console.log(member);
+    let subCube = cube.slice('country', member);
+    console.log(subCube.getCells())
+    return subCube.getCells();
+}
+
+const drillUp = () => {
+    let countryMembers = cube.getDimensionMembers('country');
+    let cityMembers = cube.dice({ 'country': countryMembers }).getDimensionMembers('city');
+    return cityMembers;
+}
+
+const drillDown = () => {
+    let cityMembers = cube.getDimensionMembers('city');
+    let countryMembers = cube.dice({ 'city': cityMembers }).getDimensionMembers('country')
+    return countryMembers;
+}
+
 module.exports = {
-    initCube
+    initCube,
+    slice,
+    dice,
+    getDimensionMembers,
+    drillUp,
+    drillDown
 }
