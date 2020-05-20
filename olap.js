@@ -80,8 +80,8 @@ const dice = async () => {
     return cube.dice({}).getCells();
 }
 
-const getDimensionMembers = () => {
-    cube.getDimensionMembers('locations')
+const getDimensionMembers = (dimension) => {
+    return cube.getDimensionMembers(dimension);
 }
 
 const slice = () => {

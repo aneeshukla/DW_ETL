@@ -52,3 +52,7 @@ app.get('/drilldown/test', (req, res) => {
   res.json(olap.drillDown());
 });
 
+app.get('/dimension/:name', (req, res) => {
+  let dimension = req.params.name;
+  res.json(olap.getDimensionMembers(dimension));
+});
