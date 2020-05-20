@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.5.7",
     "olap-cube": "^1.0.0",
+    "olap-cube-js": "^0.16.1",
     "s": "^1.0.0",
     "sequelize": "^5.21.8",
     "sqlite3": "^4.2.0"
