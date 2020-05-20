@@ -1,27 +1,27 @@
 module.exports = (sequelize, type) => {
   return sequelize.define('Fact', {
-    maker_id: {
+    MakerId: {
       type: type.STRING,
       references: {
         model: sequelize.models.Maker,
         key: 'id'
       }
     },
-    location_id: {
+    LocationId: {
       type: type.STRING,
       references: {
         model: sequelize.models.Location,
         key: 'id'
       }
     },
-    model_id: {
+    CarModelId: {
       type: type.STRING,
       references: {
         model: sequelize.models.CarModel,
         key: 'id'
       }
     },
-    time_id: {
+    TimeId: {
       type: type.STRING,
       references: {
         model: sequelize.models.Time,
