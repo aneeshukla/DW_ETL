@@ -33,9 +33,12 @@ const _initFacts = async () => {
 const begin = () => {
     Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes()]).then((result) => {
         _initFacts().then((done)=>{
-            console.log('DB successfully initialized! :D');
+            let msg = 'DB successfully initialized! :D';
+            console.log(msg);
+            return msg;
         }).catch((error)=>{
-            console.log('Error creating the Fact table.\nError: '+error);
+            let msg = 'Error creating the Fact table.\nError: '+error;
+            console.log(msg);
         });
     }).catch((error)=>{
         console.log('Could not initialize DB :(\nError: '+error);
