@@ -1,7 +1,8 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const initializer = require('./initializer')
+const express = require('express');
+const bodyParser = require('body-parser');
+const initializer = require('./initializer');
 const controller = require('./controller');
+const olap = require('./olap');
 
 // dependencies
 // const { Location, Time, Maker, CarModel, Fact } = require('./db')
@@ -25,5 +26,11 @@ app.get('/init', (req, res) => {
 app.get('/facts/all', (req, res) => {
   controller.getFacts().then((data) => {
     res.json(data);
+  });
+});
+
+app.get('/dice/test', (req, res) => {
+  olap.initCube().then((data)=>{
+    res.send(data);
   });
 });
