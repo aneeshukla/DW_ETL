@@ -1,6 +1,6 @@
 const csvReader = require('./csvReader');
 
-const {Location, Time, CarModel, Maker, Fact} = require('./db');
+const { Location, Time, CarModel, Maker, Fact } = require('./db');
 
 const _initLocations = async () => {
     await csvReader.getData('./data_files/location.csv').then(async (dataArray) => {
@@ -24,17 +24,26 @@ const _initTimes = async () => {
     });
 }
 const _initFacts = async () => {
-    Fact.removeAttribute('id');
+    // Fact.removeAttribute('id');
     await csvReader.getData('./data_files/fact.csv').then(async (dataArray) => {
         await Fact.bulkCreate(dataArray);
     });
 }
 
 const begin = () => {
-    Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes(), _initFacts()]).then((result) => {
-        console.log('DB successfully initialized! :D');
-    }).catch((error)=>{
-        console.log('Could not initialize DB :(\nError: '+error);
+    return Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes()]).then((result) => {
+        let msg;
+        return _initFacts().then((done) => {
+            msg = 'DB successfully initialized! :D';
+            console.log(msg);
+            return msg;
+        }).catch((error) => {
+            msg = 'Error creating the Fact table.\nError: ' + error;
+            console.log(msg);
+            return msg;
+        });
+    }).catch((error) => {
+        console.log('Could not initialize DB :(\nError: ' + error);
     });
 }
 

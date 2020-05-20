@@ -13,6 +13,18 @@ const CarModel = CarModelModel(sequelize, Sequelize);
 const Time = TimeModel(sequelize, Sequelize);
 const Fact = FactModel(sequelize, Sequelize);
 
+Time.hasMany(Fact);
+Fact.belongsTo(Time);
+
+Location.hasMany(Fact);
+Fact.belongsTo(Location);
+
+Maker.hasMany(Fact);
+Fact.belongsTo(Maker);
+
+CarModel.hasMany(Fact);
+Fact.belongsTo(CarModel);
+
 console.log(sequelize.models)
 sequelize.sync({ force: true })
     .then(() => {

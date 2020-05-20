@@ -1,4 +1,4 @@
-﻿maker_id,model_id,location_id,time_id,mileage,engine_power,price
+﻿MakerId,CarModelId,LocationId,TimeId,mileage,engine_power,price
 M105,MO110,L109,T108,24,294,357677.75
 M101,MO108,L105,T101,26,222,5555667.56
 M108,MO103,L110,T102,31,325,3866189.42
