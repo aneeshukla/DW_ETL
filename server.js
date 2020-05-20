@@ -19,8 +19,7 @@ app.listen(port, () => {
 })
 
 app.get('/init', (req, res) => {
-  initializer.begin();
-  res.send('It has begun! :D')
+  res.send(initializer.begin());
 });
 
 app.get('/facts/all', (req, res) => {
@@ -29,8 +28,27 @@ app.get('/facts/all', (req, res) => {
   });
 });
 
-app.get('/dice/test', (req, res) => {
+app.get('/cube/init', (req, res) => {
   olap.initCube().then((data)=>{
     res.send(data);
   });
 });
+
+app.get('/dice/test', (req, res) => {
+  olap.dice().then((data)=>{
+    res.send(data);
+  });
+});
+
+app.get('/slice/test', (req, res) => {
+  res.json(olap.slice());
+});
+
+app.get('/drillup/test', (req, res) => {
+  res.json(olap.drillUp());
+});
+
+app.get('/drilldown/test', (req, res) => {
+  res.json(olap.drillDown());
+});
+
