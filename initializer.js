@@ -24,15 +24,19 @@ const _initTimes = async () => {
     });
 }
 const _initFacts = async () => {
-    Fact.removeAttribute('id');
+    // Fact.removeAttribute('id');
     await csvReader.getData('./data_files/fact.csv').then(async (dataArray) => {
         await Fact.bulkCreate(dataArray);
     });
 }
 
 const begin = () => {
-    Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes(), _initFacts()]).then((result) => {
-        console.log('DB successfully initialized! :D');
+    Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes()]).then((result) => {
+        _initFacts().then((done)=>{
+            console.log('DB successfully initialized! :D');
+        }).catch((error)=>{
+            console.log('Error creating the Fact table.\nError: '+error);
+        });
     }).catch((error)=>{
         console.log('Could not initialize DB :(\nError: '+error);
     });
