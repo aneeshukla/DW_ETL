@@ -44,15 +44,29 @@ app.get('/slice/test', (req, res) => {
   res.json(olap.slice());
 });
 
-app.get('/drillup/test', (req, res) => {
-  res.json(olap.drillUp());
+app.get('/rollup', (req, res) => {
+  let from = req.query.from;
+  let to = req.query.to;
+  res.json(olap.rollUp(from, to));
 });
 
-app.get('/drilldown/test', (req, res) => {
-  res.json(olap.drillDown());
+// TODO : combine drill up and
+
+app.get('/drilldown', (req, res) => {
+  let from = req.query.from;
+  let to = req.query.to;
+  res.json(olap.drillDown(from, to));
 });
 
 app.get('/dimension/:name', (req, res) => {
   let dimension = req.params.name;
   res.json(olap.getDimensionMembers(dimension));
+});
+
+app.get('/query', (req, res) => {
+  let country = req.query.country;
+  let city = req.query.city;
+  let year = req.query.year;
+  let month = req.query.month
+  res.json(olap.query(country, city, year, month));
 });

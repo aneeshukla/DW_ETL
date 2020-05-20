@@ -77,7 +77,7 @@ const initCube = async () => {
 }
 
 const dice = async () => {
-    return cube.dice({}).getCells();
+    return cube.dice({ year: [ { id: 1 }, { id: 2 } ] }).getCells();
 }
 
 const getDimensionMembers = (dimension) => {
@@ -86,22 +86,67 @@ const getDimensionMembers = (dimension) => {
 
 const slice = () => {
     let member = cube.getDimensionMembers('country')[0];
-    console.log(member);
     let subCube = cube.slice('country', member);
-    console.log(subCube.getCells())
-    return subCube.getCells();
+    return subCube.getFacts();
 }
 
-const drillUp = () => {
-    let countryMembers = cube.getDimensionMembers('country');
-    let cityMembers = cube.dice({ 'country': countryMembers }).getDimensionMembers('city');
-    return cityMembers;
+
+const rollUp = (fromDimension, toDimension) => {
+    let lowLevelMembers = getDimensionMembers(fromDimension);
+    let highLevelMembers = cube.dice({ [fromDimension]: lowLevelMembers }).getDimensionMembers(toDimension);
+    return highLevelMembers;
 }
 
-const drillDown = () => {
-    let cityMembers = cube.getDimensionMembers('city');
-    let countryMembers = cube.dice({ 'city': cityMembers }).getDimensionMembers('country')
-    return countryMembers;
+const drillDown = (fromDimension, toDimension) => {
+    let highLevelMembers = getDimensionMembers(fromDimension);
+    let lowLevelMembers = cube.dice({ [fromDimension]: highLevelMembers }).getDimensionMembers(toDimension);
+    return lowLevelMembers;
+}
+
+const setGenerator = (country, city, year, month)=>{
+    let set = {
+        year: [],
+        month: [],
+        country: [],
+        city: []
+    }
+    getMemberId(set, 'country', 'Location.country', country);
+    getMemberId(set, 'city', 'Location.city', city);
+    getMemberId(set, 'year', 'Time.year', year);
+    getMemberId(set, 'month', 'Time.month', month);
+    return set;
+}
+
+const query = (country, city, year, month) => {
+    let set = setGenerator(country, city, year, month)
+    let queryData = cube.dice(set).getFacts();
+    queryData = queryData.map((data)=>{
+        return {
+            country: data['Location.country'],
+            city: data['Location.city'],
+            factory: data['Location.factory'],
+            maker: data['Maker.name'],
+            ceo: data['Maker.ceo'],
+            model: data['CarModel.name'],
+            fuel_type: data['CarModel.fuel_type'],
+            year: data['Time.year'],
+            month: data['Time.month']
+        }
+    });
+    return queryData;
+}
+
+const getMemberId = (set, type, column, value) => {
+    if(value){
+        let filteredMembers = cube.getDimensionMembers(type).filter((member)=>{
+            return member[column]===value;
+        });
+        filteredMembers.map((member)=>{
+            set[type].push({
+                id: member.id
+            });
+        });
+    }
 }
 
 module.exports = {
@@ -109,6 +154,7 @@ module.exports = {
     slice,
     dice,
     getDimensionMembers,
-    drillUp,
-    drillDown
+    rollUp,
+    drillDown,
+    query
 }

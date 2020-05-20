@@ -1,6 +1,6 @@
 const csvReader = require('./csvReader');
 
-const {Location, Time, CarModel, Maker, Fact} = require('./db');
+const { Location, Time, CarModel, Maker, Fact } = require('./db');
 
 const _initLocations = async () => {
     await csvReader.getData('./data_files/location.csv').then(async (dataArray) => {
@@ -31,17 +31,19 @@ const _initFacts = async () => {
 }
 
 const begin = () => {
-    Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes()]).then((result) => {
-        _initFacts().then((done)=>{
-            let msg = 'DB successfully initialized! :D';
+    return Promise.all([_initCarModels(), _initLocations(), _initMakers(), _initTimes()]).then((result) => {
+        let msg;
+        return _initFacts().then((done) => {
+            msg = 'DB successfully initialized! :D';
             console.log(msg);
             return msg;
-        }).catch((error)=>{
-            let msg = 'Error creating the Fact table.\nError: '+error;
+        }).catch((error) => {
+            msg = 'Error creating the Fact table.\nError: ' + error;
             console.log(msg);
+            return msg;
         });
-    }).catch((error)=>{
-        console.log('Could not initialize DB :(\nError: '+error);
+    }).catch((error) => {
+        console.log('Could not initialize DB :(\nError: ' + error);
     });
 }
 
