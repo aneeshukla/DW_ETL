@@ -4,6 +4,7 @@ const getLocations = async () => {
     const locations = await Location.findAll();
     console.log(locations.every(location => location instanceof Location)); // true
     console.log("All Locations:", JSON.stringify(locations, null, 2));
+    return locations;
 }
 const getMakers = async () => {
     const makers = await Maker.findAll();
@@ -21,7 +22,15 @@ const getTimes = async () => {
     console.log("All Times:", JSON.stringify(times, null, 2));
 }
 const getFacts = async () => {
-    const facts = await Fact.findAll();
+    const facts = await Fact.findAll({
+        include: [
+            Time,
+            Location,
+            CarModel,
+            Maker
+        ],
+        raw: true
+    });
     console.log(facts.every(fact => fact instanceof Fact)); // true
     console.log("All Facts:", JSON.stringify(facts, null, 2));
     return facts;
