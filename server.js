@@ -29,13 +29,13 @@ app.get('/facts/all', (req, res) => {
 });
 
 app.get('/cube/init', (req, res) => {
-  olap.initCube().then((data)=>{
+  olap.initCube().then((data) => {
     res.send(data);
   });
 });
 
 app.get('/dice/test', (req, res) => {
-  olap.dice().then((data)=>{
+  olap.dice().then((data) => {
     res.send(data);
   });
 });
@@ -64,9 +64,16 @@ app.get('/dimension/:name', (req, res) => {
 });
 
 app.get('/query', (req, res) => {
-  let country = req.query.country;
-  let city = req.query.city;
-  let year = req.query.year;
-  let month = req.query.month
-  res.json(olap.query(country, city, year, month));
+  let queryInput = {
+    country: req.query.country,
+    city:  req.query.city,
+    year: req.query.year,
+    month: req.query.month,
+    maker: req.query.maker,
+    model: req.query.model,
+    fuel_type: req.query.fuel_type,
+    ceo: req.query.ceo,
+    factory: req.query.factory
+  }
+  res.json(olap.query(queryInput));
 });

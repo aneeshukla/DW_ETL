@@ -105,22 +105,22 @@ const drillDown = (fromDimension, toDimension) => {
     return lowLevelMembers;
 }
 
-const setGenerator = (country, city, year, month)=>{
-    let set = {
-        year: [],
-        month: [],
-        country: [],
-        city: []
-    }
-    getMemberId(set, 'country', 'Location.country', country);
-    getMemberId(set, 'city', 'Location.city', city);
-    getMemberId(set, 'year', 'Time.year', year);
-    getMemberId(set, 'month', 'Time.month', month);
+const setGenerator = (queryInput)=>{
+    let set = {};
+    getMemberId(set, 'country', 'Location.country', queryInput.country);
+    getMemberId(set, 'city', 'Location.city', queryInput.city);
+    getMemberId(set, 'year', 'Time.year', queryInput.year);
+    getMemberId(set, 'month', 'Time.month', queryInput.month);
+    getMemberId(set, 'maker', 'Maker.name', queryInput.maker);
+    getMemberId(set, 'ceo', 'Maker.ceo', queryInput.ceo);
+    getMemberId(set, 'fuel_type', 'CarModel.fuel_type', queryInput.fuel_type);
+    getMemberId(set, 'factory', 'Location.factory', queryInput.factory);
+    getMemberId(set, 'model', 'CarModel.name', queryInput.model);
     return set;
 }
 
-const query = (country, city, year, month) => {
-    let set = setGenerator(country, city, year, month)
+const query = (queryInput) => {
+    let set = setGenerator(queryInput);
     let queryData = cube.dice(set).getFacts();
     queryData = queryData.map((data)=>{
         return {
@@ -132,7 +132,10 @@ const query = (country, city, year, month) => {
             model: data['CarModel.name'],
             fuel_type: data['CarModel.fuel_type'],
             year: data['Time.year'],
-            month: data['Time.month']
+            month: data['Time.month'],
+            mileage: data.mileage,
+            engine_power: data.engine_power,
+            price: data.price
         }
     });
     console.table(queryData);
@@ -144,6 +147,7 @@ const getMemberId = (set, type, column, value) => {
         let filteredMembers = cube.getDimensionMembers(type).filter((member)=>{
             return member[column]===value;
         });
+        set[type]=[];
         filteredMembers.map((member)=>{
             set[type].push({
                 id: member.id
