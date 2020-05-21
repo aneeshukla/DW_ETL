@@ -64,16 +64,17 @@ app.get('/dimension/:name', (req, res) => {
 });
 
 app.get('/query', (req, res) => {
-  let queryInput = {
-    country: req.query.country,
-    city:  req.query.city,
-    year: req.query.year,
-    month: req.query.month,
-    maker: req.query.maker,
-    model: req.query.model,
-    fuel_type: req.query.fuel_type,
-    ceo: req.query.ceo,
-    factory: req.query.factory
-  }
-  res.json(olap.query(queryInput));
+  res.json(olap.query(req.query));
+});
+
+app.get('/query/aggregate', (req, res) => {
+  res.json(olap.queryAggregate(olap.query(req.query)));
+});
+
+app.get('/query/max/:type', (req, res) => {
+  res.json(olap.queryMax(olap.query(req.query), req.params.type));
+});
+
+app.get('/query/min/:type', (req, res) => {
+  res.json(olap.queryMin(olap.query(req.query), req.params.type));
 });

@@ -77,7 +77,7 @@ const initCube = async () => {
 }
 
 const dice = async () => {
-    return cube.dice({ year: [ { id: 1 }, { id: 2 } ] }).getCells();
+    return cube.dice({ year: [{ id: 1 }, { id: 2 }] }).getCells();
 }
 
 const getDimensionMembers = (dimension) => {
@@ -105,7 +105,7 @@ const drillDown = (fromDimension, toDimension) => {
     return lowLevelMembers;
 }
 
-const setGenerator = (queryInput)=>{
+const setGenerator = (queryInput) => {
     let set = {};
     getMemberId(set, 'country', 'Location.country', queryInput.country);
     getMemberId(set, 'city', 'Location.city', queryInput.city);
@@ -122,7 +122,7 @@ const setGenerator = (queryInput)=>{
 const query = (queryInput) => {
     let set = setGenerator(queryInput);
     let queryData = cube.dice(set).getFacts();
-    queryData = queryData.map((data)=>{
+    queryData = queryData.map((data) => {
         return {
             country: data['Location.country'],
             city: data['Location.city'],
@@ -143,17 +143,45 @@ const query = (queryInput) => {
 }
 
 const getMemberId = (set, type, column, value) => {
-    if(value){
-        let filteredMembers = cube.getDimensionMembers(type).filter((member)=>{
-            return member[column]===value;
+    if (value) {
+        let filteredMembers = cube.getDimensionMembers(type).filter((member) => {
+            return member[column] === value;
         });
-        set[type]=[];
-        filteredMembers.map((member)=>{
+        set[type] = [];
+        filteredMembers.map((member) => {
             set[type].push({
                 id: member.id
             });
         });
     }
+}
+
+const queryAggregate = (queryData) => {
+    return queryData.reduce((accumulator, data) => {
+        accumulator.engine_power += data.engine_power;
+        accumulator.mileage += data.mileage;
+        accumulator.price += data.price;
+
+        return accumulator;
+    }, {
+        engine_power: 0,
+        mileage: 0,
+        price: 0
+    });
+}
+
+const queryMax = (queryData, type) => {
+    return queryData.reduce((max, data) => {
+        max = data[type]>max[type]?data:max;
+        return max;
+    });
+}
+
+const queryMin = (queryData, type) => {
+    return queryData.reduce((min, data) => {
+        min = data[type]<min[type]?data:min;
+        return min;
+    });
 }
 
 module.exports = {
@@ -163,5 +191,8 @@ module.exports = {
     getDimensionMembers,
     rollUp,
     drillDown,
-    query
+    query,
+    queryAggregate,
+    queryMax,
+    queryMin
 }
