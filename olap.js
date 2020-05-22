@@ -200,6 +200,14 @@ const queryMin = (queryData, type) => {
     return minRecord;
 }
 
+const queryRange = (queryData, fact, from, to) => {
+    let rangeRecords = queryData.filter((data) => {
+        return data[fact] >= from && data[fact] <= to;
+    });
+    console.table(rangeRecords);
+    return rangeRecords;
+}
+
 module.exports = {
     initCube,
     slice,
@@ -211,5 +219,6 @@ module.exports = {
     querySum,
     queryMax,
     queryMin,
-    queryAvg
+    queryAvg,
+    queryRange
 }

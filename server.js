@@ -87,3 +87,7 @@ app.get('/query/min/:type', (req, res) => {
 app.get('/query/avg', (req, res) => {
   res.json(olap.queryAvg(olap.query(req.query), req.params.type));
 });
+
+app.get('/query/range/:fact', (req, res) => {
+  res.json(olap.queryRange(olap.query(req.query), req.params.fact, req.query.from, req.query.to));
+});
