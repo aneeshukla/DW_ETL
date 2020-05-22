@@ -119,6 +119,20 @@ const setGenerator = (queryInput) => {
     return set;
 }
 
+const getMemberId = (set, type, column, value) => {
+    if (value) {
+        let filteredMembers = cube.getDimensionMembers(type).filter((member) => {
+            return member[column] === value;
+        });
+        set[type] = [];
+        filteredMembers.map((member) => {
+            set[type].push({
+                id: member.id
+            });
+        });
+    }
+}
+
 const query = (queryInput) => {
     let set = setGenerator(queryInput);
     let queryData = cube.dice(set).getFacts();
@@ -142,22 +156,8 @@ const query = (queryInput) => {
     return queryData;
 }
 
-const getMemberId = (set, type, column, value) => {
-    if (value) {
-        let filteredMembers = cube.getDimensionMembers(type).filter((member) => {
-            return member[column] === value;
-        });
-        set[type] = [];
-        filteredMembers.map((member) => {
-            set[type].push({
-                id: member.id
-            });
-        });
-    }
-}
-
-const queryAggregate = (queryData) => {
-    return queryData.reduce((accumulator, data) => {
+const querySum = (queryData) => {
+    let sum = queryData.reduce((accumulator, data) => {
         accumulator.engine_power += data.engine_power;
         accumulator.mileage += data.mileage;
         accumulator.price += data.price;
@@ -168,20 +168,36 @@ const queryAggregate = (queryData) => {
         mileage: 0,
         price: 0
     });
+    console.table(queryData);
+    return sum;
+}
+
+const queryAvg = (queryData) => {
+    let data = querySum(queryData);
+    Object.keys(data).map((fact) => {
+        data[fact] = data[fact]/queryData.length;
+        return data[fact];
+    })
+    console.table(data);
+    return data;
 }
 
 const queryMax = (queryData, type) => {
-    return queryData.reduce((max, data) => {
-        max = data[type]>max[type]?data:max;
+    let maxRecord = queryData.reduce((max, data) => {
+        max = data[type] > max[type] ? data : max;
         return max;
     });
+    console.table(maxRecord);
+    return maxRecord;
 }
 
 const queryMin = (queryData, type) => {
-    return queryData.reduce((min, data) => {
-        min = data[type]<min[type]?data:min;
+    let minRecord = queryData.reduce((min, data) => {
+        min = data[type] < min[type] ? data : min;
         return min;
     });
+    console.table(minRecord);
+    return minRecord;
 }
 
 module.exports = {
@@ -192,7 +208,8 @@ module.exports = {
     rollUp,
     drillDown,
     query,
-    queryAggregate,
+    querySum,
     queryMax,
-    queryMin
+    queryMin,
+    queryAvg
 }

@@ -72,8 +72,8 @@ app.get('/query', (req, res) => {
   res.json(olap.query(req.query));
 });
 
-app.get('/query/aggregate', (req, res) => {
-  res.json(olap.queryAggregate(olap.query(req.query)));
+app.get('/query/sum', (req, res) => {
+  res.json(olap.querySum(olap.query(req.query)));
 });
 
 app.get('/query/max/:type', (req, res) => {
@@ -82,4 +82,8 @@ app.get('/query/max/:type', (req, res) => {
 
 app.get('/query/min/:type', (req, res) => {
   res.json(olap.queryMin(olap.query(req.query), req.params.type));
+});
+
+app.get('/query/avg', (req, res) => {
+  res.json(olap.queryAvg(olap.query(req.query), req.params.type));
 });
