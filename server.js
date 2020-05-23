@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
 });
 // API ENDPOINTS
 
-const port = 3000
+const port = 3001
 
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`)
@@ -90,4 +90,8 @@ app.get('/query/avg', (req, res) => {
 
 app.get('/query/range/:fact', (req, res) => {
   res.json(olap.queryRange(olap.query(req.query), req.params.fact, req.query.from, req.query.to));
+});
+
+app.get('/query/rangeAvg/:fact', (req, res) => {
+  res.json(olap.queryAvg(olap.queryRange(olap.query(req.query), req.params.fact, req.query.from, req.query.to)));
 });
