@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "b8ec4a24-b947-4621-89fb-fbab7f5c9468",
+		"name": "dw_etl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "init",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/init",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "init CUBE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/cube/init",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"cube",
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getFacts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/facts/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"facts",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dice",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/dice/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"dice",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "slice",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/slice/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"slice",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "drillup",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/drillup?from=city&to=country",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"drillup"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "city"
+						},
+						{
+							"key": "to",
+							"value": "country"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "drilldown",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/drilldown?from=country&to=city",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"drilldown"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "country"
+						},
+						{
+							"key": "to",
+							"value": "city"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dimension",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/dimension/country",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"dimension",
+						"country"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query?country=India&city=Lucknow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "India"
+						},
+						{
+							"key": "city",
+							"value": "Lucknow"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query sum",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query/sum?country=Indonesia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query",
+						"sum"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "Indonesia"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query avg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query/avg?country=Indonesia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query",
+						"avg"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "Indonesia"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query max",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query/max/price?country=India&city=Surat&year=2019&month=November",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query",
+						"max",
+						"price"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "India"
+						},
+						{
+							"key": "city",
+							"value": "Surat"
+						},
+						{
+							"key": "year",
+							"value": "2019"
+						},
+						{
+							"key": "month",
+							"value": "November"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query min",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query/min/price?country=India&year=2019&month=November",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query",
+						"min",
+						"price"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "India"
+						},
+						{
+							"key": "year",
+							"value": "2019"
+						},
+						{
+							"key": "month",
+							"value": "November"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query range",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query/range/price?country=India&from=4555667&to=6555667",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query",
+						"range",
+						"price"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "India"
+						},
+						{
+							"key": "city",
+							"value": "Surat",
+							"disabled": true
+						},
+						{
+							"key": "year",
+							"value": "2019",
+							"disabled": true
+						},
+						{
+							"key": "month",
+							"value": "November",
+							"disabled": true
+						},
+						{
+							"key": "from",
+							"value": "4555667"
+						},
+						{
+							"key": "to",
+							"value": "6555667"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query range with avg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/query/rangeAvg/price?country=India&from=4555667&to=6555667",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"query",
+						"rangeAvg",
+						"price"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "India"
+						},
+						{
+							"key": "city",
+							"value": "Surat",
+							"disabled": true
+						},
+						{
+							"key": "year",
+							"value": "2019",
+							"disabled": true
+						},
+						{
+							"key": "month",
+							"value": "November",
+							"disabled": true
+						},
+						{
+							"key": "from",
+							"value": "4555667"
+						},
+						{
+							"key": "to",
+							"value": "6555667"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
